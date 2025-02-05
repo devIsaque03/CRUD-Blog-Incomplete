@@ -5,9 +5,11 @@ const APP = express()
 
 // error - 'Cannot GET/' é que não tem rota
 
-// Criando Rota
+// Criando Rota que envia um arquivo
 APP.get("/", function(req,res){
-    res.send("Welcome to my app!")
+    //Envia arquivo do diretório
+    // dirname pega o diretório local
+    res.sendFile(__dirname + '/html/index.html')
 })
 
 // Criando rota como outro caminho (/sobre) com callback
@@ -18,6 +20,15 @@ APP.get("/sobre", function(req,res){
 // Criando rota como outro caminho (/blog) com callback
 APP.get("/blog", function(req,res){
     res.send("My blog")
+})
+
+// Rota com Parâmetro(':nome', ':cargo' são como uma variável)
+APP.get('/ola/:nome/:cargo/:idade', function(req, res) {
+    // puxa as variáveis e as envia
+    // res.send(req.params)
+
+    // Usa os parâmetros (Envia só um send)
+    res.send("<h1>Ola " + req.params.nome + "</h1>" + "<h2>Você tem " + req.params.idade + " anos</h2>" + "<h2>Seu cargo e: " + req.params.cargo + "</h2>")
 })
 
 
