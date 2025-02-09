@@ -6,14 +6,15 @@ const APP = express()
 const Sequelize = require('sequelize')
 
 // Módulo handlebars
-const handlebars = require('express-handlebars')
+const { engine } = require('express-handlebars');  // Forma correta de importar
 
 // ---------------------------- MÓDULOS -------------------------------
 // Config
     // template engine
-        // Avisando que desejamos usar o handlebars como template engine
-        APP.engine('handlebars', handlebars({defaultLayout: main}))
-        APP.set('view engine', 'handlebars')
+    // Avisando que desejamos usar o handlebars como template engine
+    APP.engine('handlebars', engine({ defaultLayout: 'main' })) // Usando a função 'engine' corretamente
+    APP.set('view engine', 'handlebars')
+
     // Conectando ao DB
         const sequelize = new Sequelize('test', 'root', '@Aa2047591863', {
             host: "localhost",
@@ -26,9 +27,10 @@ const handlebars = require('express-handlebars')
         }).catch((erro) => {
             console.log("Fallha ao conectar: " + erro)
         })
+
 // Rotas
     APP.get('/cad', (req, res) => {
-        res.send('ROTA DE CADASTRO DE POST')
+        res.render('formulario')
     })
 
 
