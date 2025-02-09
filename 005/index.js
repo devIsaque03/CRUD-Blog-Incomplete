@@ -26,6 +26,10 @@ const handlebars = require('express-handlebars')
         }).catch((erro) => {
             console.log("Fallha ao conectar: " + erro)
         })
+// Rotas
+    APP.get('/cad', (req, res) => {
+        res.send('ROTA DE CADASTRO DE POST')
+    })
 
 
 
