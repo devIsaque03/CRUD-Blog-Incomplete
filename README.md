@@ -22,3 +22,7 @@ instalando sequelize [para ter acesso do mysql pelo node.js]
 Apartir da Pasta 005
 Instalando handlebars
 - npm install --save express-handlebars
+
+----------------------------------------------------------------------
+instalando body-parser para pegar dados de um formulário
+- npm install --save body-parser

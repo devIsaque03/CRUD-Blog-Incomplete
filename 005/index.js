@@ -32,6 +32,10 @@ const { engine } = require('express-handlebars');  // Forma correta de importar
     APP.get('/cad', (req, res) => {
         res.render('formulario')
     })
+    // Entra nela só usando o método 'post'
+    APP.post('/add', (req,res) => {
+        res.send('FORMULARIO RECEBIDO!')
+    })
 
 
 
