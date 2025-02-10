@@ -9,7 +9,7 @@ const { engine } = require('express-handlebars');  // Forma correta de importar
 const bodyParser = require('body-parser')
 
 // Importando Post
-const Post = require('./models/Post')
+const Post = require('./models/Post.js')
 
 // ---------------------------- MÓDULOS -------------------------------
 // Config
@@ -24,10 +24,16 @@ const Post = require('./models/Post')
 
 // Rotas
     APP.get('/', (req, res) => {
+        // Chama todos os posts e os envia para o handlebars em ordem Descrecente (novo -> antigo)
+        Post.findAll({order: [['id', 'DESC']]}).then((posts) => {
+            // Converter as instâncias do Sequelize para objetos simples
+            const postsJSON = posts.map(post => post.get());
 
-        
-        // renderiza handlebars
-        res.render('home')
+            // renderiza handlebars e envia os dados
+            res.render('home', {posts: postsJSON})
+        }) .catch((erro) => {
+            res.send(`Houve um erro: ${erro}`)
+        })       
     })
 
     APP.get('/cad', (req, res) => {
