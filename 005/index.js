@@ -2,11 +2,11 @@
 var express = require("express");
 const APP = express()
 
-// Módulo Sequelize
-const Sequelize = require('sequelize')
-
 // Módulo handlebars
 const { engine } = require('express-handlebars');  // Forma correta de importar
+
+// módulo body-parser
+const bodyParser = require('body-parser')
 
 // ---------------------------- MÓDULOS -------------------------------
 // Config
@@ -15,18 +15,9 @@ const { engine } = require('express-handlebars');  // Forma correta de importar
     APP.engine('handlebars', engine({ defaultLayout: 'main' })) // Usando a função 'engine' corretamente
     APP.set('view engine', 'handlebars')
 
-    // Conectando ao DB
-        const sequelize = new Sequelize('test', 'root', '@Aa2047591863', {
-            host: "localhost",
-            dialect: 'mysql'
-        })
-
-        // Verificando conexão ao DB
-        sequelize.authenticate().then(() => {
-            console.log("Conectado com sucesso!")
-        }).catch((erro) => {
-            console.log("Fallha ao conectar: " + erro)
-        })
+    // body-parser - configurando
+    APP.use(bodyParser.urlencoded({extend: false}))
+    APP.use(bodyParser.json())
 
 // Rotas
     APP.get('/cad', (req, res) => {
@@ -34,7 +25,7 @@ const { engine } = require('express-handlebars');  // Forma correta de importar
     })
     // Entra nela só usando o método 'post'
     APP.post('/add', (req,res) => {
-        res.send('FORMULARIO RECEBIDO!')
+        res.send(`Titulo: ${req.body.titulo} Conteudo: ${req.body.conteudo}`)
     })
 
 
