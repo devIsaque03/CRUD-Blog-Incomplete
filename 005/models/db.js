@@ -14,6 +14,7 @@ sequelize.authenticate().then(() => {
     console.log("Fallha ao conectar: " + erro)
 })
 
+// Exportando Sequelize
 module.exports = {
     Sequelize: Sequelize,
     sequelize: sequelize

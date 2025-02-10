@@ -8,6 +8,9 @@ const { engine } = require('express-handlebars');  // Forma correta de importar
 // módulo body-parser
 const bodyParser = require('body-parser')
 
+// Importando Post
+const Post = require('./models/Post')
+
 // ---------------------------- MÓDULOS -------------------------------
 // Config
     // template engine
@@ -20,12 +23,29 @@ const bodyParser = require('body-parser')
     APP.use(bodyParser.json())
 
 // Rotas
+    APP.get('/', (req, res) => {
+
+        
+        // renderiza handlebars
+        res.render('home')
+    })
+
     APP.get('/cad', (req, res) => {
+        // renderiza handlebars
         res.render('formulario')
     })
     // Entra nela só usando o método 'post'
     APP.post('/add', (req,res) => {
-        res.send(`Titulo: ${req.body.titulo} Conteudo: ${req.body.conteudo}`)
+        // Inserindo dados na tabela
+        Post.create({
+            titulo: req.body.titulo,
+            conteudo: req.body.conteudo
+        }).then(() => {
+            // redirecionamento
+            res.redirect('/')
+        }).catch((erro) => {
+            res.send(`Houve um erro: ${erro}`)
+        })
     })
 
 
