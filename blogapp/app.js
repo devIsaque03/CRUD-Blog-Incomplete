@@ -4,6 +4,7 @@ const handlebars = require('express-handlebars')
 const bodyParser = require('body-parser')
 const APP = express()
 const admin = require("./routes/admin")
+const path = require("path")
 // const mongoose = require('mongoose')
 
 // Configurações -----------------------------------------------------
@@ -15,7 +16,9 @@ const admin = require("./routes/admin")
         APP.set('view engine', 'handlebars')
     // mongoose
         // Em Breve
-    //
+    // Public
+        // Para pegar o caminho absoluto para a pasta public
+        APP.use(express.static(path.join(__dirname,"public")))
     
 // Rotas -------------------------------------------------------------
     APP.use('/admin', admin)
@@ -23,7 +26,7 @@ const admin = require("./routes/admin")
 
 
 
-    
+
 // Outros ------------------------------------------------------------
 const PORT = 8080
 APP.listen(PORT, () => {
