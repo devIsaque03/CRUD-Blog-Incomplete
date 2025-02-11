@@ -24,6 +24,12 @@ const mongoose = require('mongoose')
     // Public
         // Para pegar o caminho absoluto para a pasta public
         APP.use(express.static(path.join(__dirname,"public")))
+
+        // middleware
+        APP.use((req, res, next) => {
+            console.log("oi eu sou um middeware")
+            next()
+        })
     
 // Rotas -------------------------------------------------------------
     APP.use('/admin', admin)
