@@ -31,3 +31,9 @@ instalando body-parser para pegar dados de um formulário
 instalando mongodb no node.js - mongoose
 (A partir do 006)
 - npm instal --save mongoose
+
+--------------------------------   Projeto   ---------------------------
+- npm install --save express
+- npm install --save express-handlebars
+- npm install --save body-parser
+- npm install --save mongoose
