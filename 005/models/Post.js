@@ -13,5 +13,5 @@ const Post = db.sequelize.define('Postagens', {
 
 // Post.sync({force: true})
 
-// Exportanto Post
+// Exportanto Post (exportando a tabela)
 module.exports = Post

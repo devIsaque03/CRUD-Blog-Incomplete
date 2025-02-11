@@ -5,5 +5,7 @@
 {{#each posts}}
     <h1>{{titulo}}</h1>
     <p>{{conteudo}}</p>
+    <!-- Pega o id do post e envia na URL como parametro -->
+    <a href="/deletar/{{id}}"><button>Deletar</button></a>
     <hr>
 {{/each}}

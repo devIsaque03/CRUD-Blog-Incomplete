@@ -29,7 +29,7 @@ const Post = require('./models/Post.js')
             // Converter as instâncias do Sequelize para objetos simples
             const postsJSON = posts.map(post => post.get());
 
-            // renderiza handlebars e envia os dados
+            // renderiza handlebars e envia os dados para a página
             res.render('home', {posts: postsJSON})
         }) .catch((erro) => {
             res.send(`Houve um erro: ${erro}`)
@@ -51,6 +51,15 @@ const Post = require('./models/Post.js')
             res.redirect('/')
         }).catch((erro) => {
             res.send(`Houve um erro: ${erro}`)
+        })
+    })
+    // Deletando Post pelo id (parametro passado)
+    APP.get('/deletar/:id', (req, res) => {
+        // Pelo id da rota 
+        Post.destroy({where: {'id': req.params.id}}).then(() => {
+            res.send("Postagem Deletada com Sucesso!")
+        }).catch((erro) => {
+            res.send("Essa postagem não existe!")
         })
     })
 
