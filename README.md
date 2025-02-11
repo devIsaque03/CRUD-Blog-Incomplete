@@ -39,3 +39,8 @@ instalando mongodb no node.js - mongoose
 - npm install --save mongoose
 
 Instalando BootStrap para FrontEnd
+Coloque as pastas no public
+
+Instalando sessões e cokkies
+- npm install --save express-session
+- npm install --save connect-flash

@@ -6,8 +6,26 @@ const APP = express()
 const admin = require("./routes/admin")
 const path = require("path")
 const mongoose = require('mongoose')
+const session = require('express-session')
+const flash = require('connect-flash')
 
 // Configurações -----------------------------------------------------
+    // Sessão
+        APP.use(session({
+            // senha
+            secret: "cursodenode",
+            resave: true,
+            saveUninitialized: true
+        }))
+        APP.use(flash())
+    // Middleware
+        APP.use((req, res, next) => {
+            //variáveis globais
+            res.locals.success_msg = req.flash("success_msg")
+            res.locals.erro_msg = req.flash("eroor_msg")
+
+            next()
+        })
     // Body Parser
         APP.use(bodyParser.urlencoded({extend: true}))
         APP.use(bodyParser.json())
@@ -24,12 +42,6 @@ const mongoose = require('mongoose')
     // Public
         // Para pegar o caminho absoluto para a pasta public
         APP.use(express.static(path.join(__dirname,"public")))
-
-        // middleware
-        APP.use((req, res, next) => {
-            console.log("oi eu sou um middeware")
-            next()
-        })
     
 // Rotas -------------------------------------------------------------
     APP.use('/admin', admin)
