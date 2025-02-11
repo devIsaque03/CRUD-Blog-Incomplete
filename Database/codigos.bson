@@ -1,7 +1,24 @@
-show collections;
-
 // mostra todas DB
 show databases;
 
 // Cria uma DB se não existe e entra
 use loja;
+
+// Mostra todas as tabelas
+show collections;
+
+// Mostra das as informações da tabela
+db.<tabela>.find()
+
+// Esse comando remove múltiplos documentos da tabela
+db.<tabela>.deleteMany()
+
+// Exclui todos arquivos da tabela menos o que foi coloco o 'id'
+db.<tabela>.deleteMany({ _id: { $ne: ObjectId("<id-do-usuario-especifico>") } });
+
+    { _id: { $ne: ObjectId("id-do-usuario-especifico") } }: 
+    Isso vai selecionar todos os documentos onde o '_id' não é igual ao 
+    'ObjectId' fornecido. O operador '$ne' significa "não igual". Ou seja, 
+    ele excluirá todos os documentos, exceto aquele com o id específico.
+
+// 
