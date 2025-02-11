@@ -26,3 +26,8 @@ Instalando handlebars
 ----------------------------------------------------------------------
 instalando body-parser para pegar dados de um formulário
 - npm install --save body-parser
+
+----------------------------------------------------------------------
+instalando mongodb no node.js - mongoose
+(A partir do 006)
+- npm instal --save mongoose

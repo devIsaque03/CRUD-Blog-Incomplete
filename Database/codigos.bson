@@ -1,0 +1,7 @@
+show collections;
+
+// mostra todas DB
+show databases;
+
+// Cria uma DB se não existe e entra
+use loja;
