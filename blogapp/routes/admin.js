@@ -13,7 +13,22 @@ router.get('/posts', (req, res) => {
 })
 
 router.get('/categorias', (req, res) => {
-    res.render("admin/categorias")
+    // Listando todas os documentos
+    Categoria.find().sort({date:'desc'}).then((categorias) => {
+        console.log(categorias)
+
+        // "Limpa" os dados e cria um novo objeto simples para passar para o Handlebars
+        const categoriasSimples = categorias.map(categoria => ({
+            nome: categoria.nome,
+            slug: categoria.slug,
+            date: categoria.date
+        }));
+
+        res.render("admin/categorias", { categorias: categoriasSimples })
+    }).catch((erro) => {
+        req.flash("error_msg", "Houve um erro ao listar as categorias")
+        res.redirect("/admin")
+    })
 })
 
 router.get('/categorias/add', (req, res) => {

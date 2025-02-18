@@ -30,8 +30,17 @@ const flash = require('connect-flash')
         APP.use(bodyParser.urlencoded({extend: true}))
         APP.use(bodyParser.json())
     // handlebars
-        APP.engine('handlebars', handlebars.create({ defaultLayout: 'main' }).engine) // Correção aqui
+        APP.engine('handlebars', handlebars.create({ 
+            defaultLayout: 'main',
+            helpers: {
+                json: function (context) {
+                    return JSON.stringify(context, null, 2);
+                }
+            },
+            allowProtoPropertiesByDefault: true,  // Desabilita a verificação de protótipo
+        }).engine) // Correção aqui
         APP.set('view engine', 'handlebars')
+        
     // mongoose
         mongoose.Promise = global.Promise
         mongoose.connect('mongodb://localhost/blogapp').then(() => {
