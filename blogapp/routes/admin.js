@@ -19,6 +19,7 @@ router.get('/categorias', (req, res) => {
 
         // "Limpa" os dados e cria um novo objeto simples para passar para o Handlebars
         const categoriasSimples = categorias.map(categoria => ({
+            _id: categoria._id,
             nome: categoria.nome,
             slug: categoria.slug,
             date: categoria.date
@@ -35,7 +36,7 @@ router.get('/categorias/add', (req, res) => {
     res.render("admin/addcategorias")
 })
 
-
+// Post para envio de formulário
 router.post('/categorias/nova', (req, res) => {
 
     var erros = []
@@ -69,6 +70,47 @@ router.post('/categorias/nova', (req, res) => {
             res.redirect('/admin')
         })
     }
+})
+
+router.get('/categorias/edit/:id', (req, res) => {
+    //Preencher dados automaticamente
+        //Busca 'UM' registro passado com id específico
+        Categoria.findOne({_id:req.params.id}).then((categoria) => {
+        
+        // "Limpa" os dados e cria um novo objeto simples para passar para o Handlebars
+        const categoriaSimples = {
+            _id: categoria._id,
+            nome: categoria.nome,
+            slug: categoria.slug,
+            date: categoria.date 
+        };
+
+            res.render('admin/editcategorias',{categoria: categoriaSimples})
+        }).catch((erro) => {
+            req.flash('error_msg', "Essa categoria não existe")
+            res.redirect('/admin/categorias')
+        })
+})
+
+// Post para envio de formulário
+router.post('/categorias/edit', (req, res) => {
+    Categoria.findOne({_id: req.body.id}).then((categoria) => {
+        categoria.nome = req.body.nome
+        categoria.slug = req.body.slug
+
+        categoria.save().then(() => {
+            res.flash('success_msg', "Categoria Editada com Sucesso")
+            res.redirect('/admin/categorias')
+        }).catch((erro) => {
+            req.flash('error_msg', "Erro interno ao salvar edição da categoria")
+            res.redirect('/admin/categorias')
+        })
+
+    }).catch((erro) => {
+        req.flash('error_msg', "Erro ao editar categoria")
+        res.redirect('/admin/categorias')
+    })
+
 })
 
 module.exports = router
