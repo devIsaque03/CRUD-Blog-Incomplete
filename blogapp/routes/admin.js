@@ -130,7 +130,15 @@ router.post('/categorias/deletar', (req, res) => {
 router.get('/postagens', (req, res) => {
 
     Postagem.find().populate('categoria').sort({date:'desc'}).then((postagens) => {
-        res.render('admin/postagens')
+
+        const postagensSimples = postagens.map(postagem => ({
+            titulo: postagem.titulo,
+            descricao: postagem.descricao,
+            date: postagem.data,
+            categoria: postagem.categoria.nome
+        }));
+
+        res.render('admin/postagens', { postagens: postagensSimples})
     }).catch((erro) => {
             req.flash('error_msg', "Erro ao listar postagens");
             res.redirect('/admin');

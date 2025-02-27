@@ -5,10 +5,10 @@
 {{#each postagens}}
     <div class="card mt-4">
         <div class="card-body">
-            <h4>{{titulo}}</h4>
-            <p>Descrição: {{descricao}}</p>
-            <small>Data: {{data}}</small>
-            <small>Categoria: {{categoria.nome}}</small>
+            <h4>{{this.titulo}}</h4>
+            <p>Descrição: {{this.descricao}}</p>
+            <small>Data: {{this.date}}</small> <br>
+            <small>Categoria: {{this.categoria}}</small>
         </div>
     </div>
 {{else}}

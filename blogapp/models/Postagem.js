@@ -27,6 +27,7 @@ const Postagem = new Schema({
     },
     data: {
         type: Date,
+        // Passando um valor padrão (quando sem resposta)
         default: Date.now()
     }
 })
