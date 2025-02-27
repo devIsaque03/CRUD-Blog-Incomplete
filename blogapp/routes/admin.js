@@ -2,7 +2,9 @@ const express = require("express")
 const router = express.Router()
 const mongoose = require('mongoose')
 require('../models/Categoria')
-const Categoria = mongoose.model("categorias")
+const Categoria = mongoose.model('categorias')
+require('../models/Postagem')
+const Postagem = mongoose.model('postagens')
 
 router.get('/', (req, res) => {
     res.render("admin/index")
@@ -148,6 +150,36 @@ router.get('/postagens/add', (req, res) => {
 })
 
 // Fazer validação (IF)
-router.post('')
+router.post('/postagens/nova', (req, res) => {
+    var erros = []
+
+    // Busca o valor do envio do formulário 
+    if(req.body.categoria == "0") {
+        erros.push({texto: "Categoria Inválida, registre uma categoria"})
+    }
+
+    if(erros.length > 0) {
+        res.render('admin/addpostagem', {erros: erros})
+    } else {
+        // pega os dados do formulário
+        const novaPostagem = {
+            titulo: req.body.titulo,
+            descricao: req.body.descricao,
+            conteudo: req.body.conteudo,
+            categoria: req.body.categoria,
+            slug: req.body.slug
+        }
+
+        new Postagem(novaPostagem).save().then(() => {
+            req.flash('success_msg', "Postagem registrada com sucesso");
+            res.redirect('/admin/postagens');
+        })
+        .catch((erro) => {
+            console.error(erro); // Imprime o erro detalhado no console
+            req.flash('error_msg', "Erro interno ao registrar nova postagem");
+            res.redirect('/admin/postagens');
+        });
+    }
+})
 
 module.exports = router

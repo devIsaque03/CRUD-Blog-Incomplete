@@ -31,6 +31,6 @@ const Postagem = new Schema({
     }
 })
 
-mongoose.model("postagens", Postagem)
+mongoose.model('postagens', Postagem)
 
 
