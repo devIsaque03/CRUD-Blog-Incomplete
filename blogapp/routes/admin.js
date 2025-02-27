@@ -125,4 +125,29 @@ router.post('/categorias/deletar', (req, res) => {
         });
 });
 
+router.get('/postagens', (req, res) => {
+    res.render('admin/postagens')
+})
+
+router.get('/postagens/add', (req, res) => {
+    Categoria.find().then((categorias) => {
+
+        // "Limpa" os dados e cria um novo objeto simples para passar para o Handlebars
+        const categoriasSimples = categorias.map(categoria => ({
+            _id: categoria._id,
+            nome: categoria.nome,
+            slug: categoria.slug,
+            date: categoria.date
+        }));
+
+        res.render('admin/addpostagens', {categorias: categoriasSimples})
+    }).catch((erro) => {
+        req.flash('error_msg', "Erro ao carregar o formulário");
+        res.redirect('/admin');
+    })
+})
+
+// Fazer validação (IF)
+router.post('')
+
 module.exports = router
