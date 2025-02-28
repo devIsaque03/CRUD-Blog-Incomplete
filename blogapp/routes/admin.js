@@ -228,55 +228,41 @@ router.get('/postagens/edit/:id', (req, res) => {
             }));
 
             res.render('admin/editpostagens', {categorias: categoriasSimples, postagem: postagemSimples});
-            console.log(postagemSimples._id)
+
         }).catch((erro) => {
             req.flash('error_msg', "Houve um erro ao listar as categorias");
             res.redirect('/admin/postagens');
-            console.log("Erro ao buscar categoria. Redirecionando...");
         });
 
     }).catch((erro) => {
         req.flash('error_msg', "Houve um erro ao buscar a postagem");
         res.redirect('/admin/postagens');
-        console.log("Erro ao buscar postagem. Redirecionando...");
     });
 })
 
 router.post('/postagens/edit', (req, res) => {
     //Fazer validações depois
-    console.log(1)
+
     const id = req.body.id
-    console.log(id)
     Postagem.findOne({_id: id}).then((postagem) => {
-        console.log(req.body)
-        console.log(2)
+
         postagem.titulo = req.body.titulo
         postagem.slug = req.body.slug
         postagem.descricao = req.body.descricao
         postagem.conteudo = req.body.conteudo
         postagem.categoria = req.body.categoria
-        console.log(3)
-        console.log(postagem)
+
         postagem.save().then(() => {
-            console.log(4)
             req.flash('success_msg', "Postagem editada com sucesso!")
             res.redirect('/admin/postagens');
-            console.log(5)
         }).catch((erro) => {
-            console.log(6)
-            console.log(erro)
             req.flash('error_msg', "Erro interno")
             res.redirect('/admin/postagens');
-            console.log(7)
         })
-        console.log(8)
     }).catch((erro) => {
-        console.log(9)
         req.flash('error_msg', "Houve um erro ao salvar a edição")
         res.redirect('/admin/postagens');
-        console.log(0)
     })
-    console.log(11)
 })
 
 
