@@ -17,7 +17,7 @@ router.get('/posts', (req, res) => {
 router.get('/categorias', (req, res) => {
     // Listando todas os documentos
     Categoria.find().sort({date:'desc'}).then((categorias) => {
-        console.log(categorias)
+        // console.log(categorias)
 
         // "Limpa" os dados e cria um novo objeto simples para passar para o Handlebars
         const categoriasSimples = categorias.map(categoria => ({
@@ -265,7 +265,14 @@ router.post('/postagens/edit', (req, res) => {
     })
 })
 
-
-
+router.get('/postagens/deletar/:id', (req, res) => {
+    Postagem.deleteOne({_id: req.params.id}).then(() => {
+        req.flash('success_msg', "Postagem excluida com sucesso!")
+        res.redirect('/admin/postagens')
+    }).catch((erro) => {
+        req.flash('error_msg', "Houve um erro ao deletar a postagem")
+        res.redirect('/admin/postagens');
+    })
+})
 
 module.exports = router

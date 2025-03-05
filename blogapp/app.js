@@ -56,6 +56,12 @@ const flash = require('connect-flash')
         APP.use(express.static(path.join(__dirname,"public")))
     
 // Rotas -------------------------------------------------------------
+    APP.get('/', (req, res) => {
+        res.render('index')
+    })
+
+    APP.get()1
+
     APP.use('/admin', admin)
 
 
