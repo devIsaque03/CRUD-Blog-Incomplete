@@ -44,3 +44,7 @@ Coloque as pastas no public
 Instalando sessões e cokkies
 - npm install --save express-session
 - npm install --save connect-flash
+
+Instalando bibliotecas handlebars
+- npm install handlebars-helpers
+- npm install hbs

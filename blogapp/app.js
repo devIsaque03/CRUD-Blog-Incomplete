@@ -1,6 +1,8 @@
 // Carregando módulos -----------------------------------------------
 const express = require('express')
 const handlebars = require('express-handlebars')
+const hbs = require('hbs');
+const helpers = require('handlebars-helpers');
 const bodyParser = require('body-parser')
 const APP = express()
 const admin = require("./routes/admin")
@@ -8,6 +10,8 @@ const path = require("path")
 const mongoose = require('mongoose')
 const session = require('express-session')
 const flash = require('connect-flash')
+require('./models/Postagem')
+const Postagem = mongoose.model('postagens')
 
 // Configurações -----------------------------------------------------
     // Sessão
@@ -26,9 +30,11 @@ const flash = require('connect-flash')
 
             next()
         })
-    // Body Parser
-        APP.use(bodyParser.urlencoded({extend: true}))
-        APP.use(bodyParser.json())
+
+
+        APP.use(express.json()); // Para lidar com requisições JSON
+        APP.use(express.urlencoded({ extended: true })); // Para lidar com formulários URL-encoded
+
 
     // handlebars
         APP.engine('handlebars', handlebars.create({ 
@@ -43,6 +49,9 @@ const flash = require('connect-flash')
             allowProtoPropertiesByDefault: true,  // Desabilita a verificação de protótipo
         }).engine) // Correção aqui
         APP.set('view engine', 'handlebars')
+    
+        helpers.date(),
+        hbs.registerHelper('dateFormat', helpers.date);
         
     // mongoose
         mongoose.Promise = global.Promise
@@ -57,10 +66,55 @@ const flash = require('connect-flash')
     
 // Rotas -------------------------------------------------------------
     APP.get('/', (req, res) => {
-        res.render('index')
+        Postagem.find().populate('categoria').sort({data: 'desc'}).then((postagens) => {
+
+            const postagensSimples = postagens.map(postagem => ({
+                nome: postagem.categoria.nome,
+                data: postagem.data,
+                titulo: postagem.titulo,
+                descricao: postagem.descricao,
+                slug: postagem.slug
+            }));
+
+            res.render('index', {postagens: postagensSimples})
+        }).catch((erro) => {
+            req.flash('error_msg', "Houve um erro interno")
+            res.redirect('/404')
+        });
+    });
+
+    APP.get('/postagem/:slug', (req, res) => {
+        Postagem.findOne({ slug: req.params.slug }).then((postagem) => {
+            
+            if (postagem) {
+                // Como 'postagem' é um único documento, não é necessário usar map()
+                const postagemSimples = {
+                    conteudo: postagem.conteudo,
+                    titulo: postagem.titulo,
+                    data: postagem.data
+                };
+    
+                res.render('postagem/index', { postagem: postagemSimples });
+            } else {
+                // Se não encontrar postagem, redireciona com mensagem de erro
+                req.flash('error_msg', "Esta postagem não existe");
+                res.redirect('/404'); // ou para outra página de erro
+            }
+        }).catch((erro) => {
+            console.error(erro);  // Para facilitar a depuração
+            req.flash('error_msg', "Houve um erro interno");
+            res.redirect('/404'); // Ou redireciona para uma página de erro
+        });
+    });
+    
+
+    APP.get('/404', (req, res) => {
+        res.send("Erro 404!")
     })
 
-    APP.get()1
+    APP.get('/posts', (req, res) => {
+        res.send('Lista Posts')
+    })
 
     APP.use('/admin', admin)
 
