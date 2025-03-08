@@ -1,11 +1,11 @@
 <div class="card">
     <div class="card-body">
-        <h1>{{titulo}}</h1>
+        <!-- <pre>{{json postagem}}</pre>  Para debugar a variável 'categorias' -->
+        <h1>{{postagem.titulo}}</h1>
         <hr>
-        <small>Data de publicação: {{dateFormat data "DD/MM/YYYY"}}</small><br>
-
+        <small>Data de publicação: {{postagem.data}}</small><br>
         <hr>
-        {{conteudo}}
+        {{postagem.conteudo}}
     </div>
 </div>
 
