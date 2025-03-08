@@ -1,8 +1,6 @@
 // Carregando módulos -----------------------------------------------
 const express = require('express')
 const handlebars = require('express-handlebars')
-const hbs = require('hbs');
-const helpers = require('handlebars-helpers');
 const bodyParser = require('body-parser')
 const APP = express()
 const admin = require("./routes/admin")
@@ -30,7 +28,10 @@ const Postagem = mongoose.model('postagens')
 
             next()
         })
-
+    
+    // Body Parser
+        APP.use(bodyParser.urlencoded({extend: true}))
+        APP.use(bodyParser.json())
 
         APP.use(express.json()); // Para lidar com requisições JSON
         APP.use(express.urlencoded({ extended: true })); // Para lidar com formulários URL-encoded
@@ -49,9 +50,6 @@ const Postagem = mongoose.model('postagens')
             allowProtoPropertiesByDefault: true,  // Desabilita a verificação de protótipo
         }).engine) // Correção aqui
         APP.set('view engine', 'handlebars')
-    
-        helpers.date(),
-        hbs.registerHelper('dateFormat', helpers.date);
         
     // mongoose
         mongoose.Promise = global.Promise
