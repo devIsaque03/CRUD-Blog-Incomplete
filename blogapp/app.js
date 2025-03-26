@@ -4,6 +4,7 @@ const handlebars = require("express-handlebars");
 const bodyParser = require("body-parser");
 const APP = express();
 const admin = require("./routes/admin");
+const usuario = require("./routes/usuario");
 const path = require("path");
 const mongoose = require("mongoose");
 const session = require("express-session");
@@ -11,6 +12,7 @@ const flash = require("connect-flash");
 require("./models/Postagem");
 const Postagem = mongoose.model("postagens");
 const Categoria = mongoose.model("categorias");
+
 
 // Configurações -----------------------------------------------------
 // Sessão
@@ -27,17 +29,14 @@ APP.use(flash());
 APP.use((req, res, next) => {
   //variáveis globais
   res.locals.success_msg = req.flash("success_msg");
-  res.locals.erro_msg = req.flash("eroor_msg");
+  res.locals.erro_msg = req.flash("error_msg");
 
   next();
 });
 
 // Body Parser
-APP.use(bodyParser.urlencoded({ extend: true }));
+APP.use(bodyParser.urlencoded({ extended: true }));
 APP.use(bodyParser.json());
-
-APP.use(express.json()); // Para lidar com requisições JSON
-APP.use(express.urlencoded({ extended: true })); // Para lidar com formulários URL-encoded
 
 // handlebars
 APP.engine(
@@ -174,6 +173,7 @@ APP.get("/posts", (req, res) => {
 });
 
 APP.use("/admin", admin);
+APP.use("/usuario", usuario);
 
 // Outros ------------------------------------------------------------
 const PORT = 8080;
