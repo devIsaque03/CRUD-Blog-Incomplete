@@ -11,6 +11,7 @@ const flash = require("connect-flash");
 require("./models/Postagem");
 const Postagem = mongoose.model("postagens");
 const Categoria = mongoose.model("categorias");
+const usuarios = require("./routes/usuario") 
 
 // Configurações -----------------------------------------------------
 // Sessão
@@ -174,6 +175,7 @@ APP.get("/posts", (req, res) => {
 });
 
 APP.use("/admin", admin);
+APP.use("/usuarios", usuarios)
 
 // Outros ------------------------------------------------------------
 const PORT = 8080;
