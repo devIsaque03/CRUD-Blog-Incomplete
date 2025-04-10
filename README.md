@@ -48,3 +48,7 @@ Instalando sessões e cokkies
 Instalando bibliotecas handlebars
 - npm install handlebars-helpers
 - npm install hbs
+
+
+instalando biblioteca de criptografia
+- npm install --save bcryptjs
