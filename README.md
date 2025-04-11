@@ -49,6 +49,9 @@ Instalando bibliotecas handlebars
 - npm install handlebars-helpers
 - npm install hbs
 
-
 instalando biblioteca de criptografia
 - npm install --save bcryptjs
+
+instalando passport
+- npm install --save passport
+- npm install --save passport-local
